@@ -1,3 +1,0 @@
-oauth oauth:twitch_oauth_token
-account twitch_account_for_bot
-channel channel_to_monitor

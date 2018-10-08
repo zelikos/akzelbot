@@ -24,9 +24,9 @@ def load_lists():
     puns = []
     quotes = []
     try:
-        mod_list = open("../data/mod_list.txt", "r")
-        pun_list = open("../data/pun_list.txt", "r")
-        quote_list = open("../data/quote_list.txt", "r")
+        mod_list = open("../config/mod_list.txt", "r")
+        pun_list = open("../config/pun_list.txt", "r")
+        quote_list = open("../config/quote_list.txt", "r")
     except FileNotFoundError:
         save_list("mod")
         save_list("pun")
@@ -48,7 +48,7 @@ def load_lists():
 def load_commands():
     commands = {}
     try:
-        command_list = open("../data/command_list.txt", "r")
+        command_list = open("../config/command_list.txt", "r")
     except FileNotFoundError:
         save_list("command")
     else:
@@ -65,7 +65,7 @@ commands = load_commands()
 
 
 def save_list(item_type):
-    item_list = open(("../data/" + item_type + "_list.txt"), "w")
+    item_list = open(("../config/" + item_type + "_list.txt"), "w")
     if item_type == "mod":
         for mod in mods:
             print(mod, file = item_list)

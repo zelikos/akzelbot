@@ -4,7 +4,7 @@ import sys
 def load_settings():
     settings = {}
     try:
-        settings_file = open("../data/settings.txt", "r")
+        settings_file = open("../config/settings.txt", "r")
     except FileNotFoundError:
         print("Settings file not found.")
         sys.exit(0)
