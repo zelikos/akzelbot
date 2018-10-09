@@ -10,3 +10,6 @@
     - replace `oauth:twitch_oauth_token` with the OAuth token for the bot's account. You can use [this](https://twitchapps.com/tmi/) to generate one.
 - cd to `src`
 - `python3 Run.py`
+
+
+Note: I've only tested and used AkzelBot on Linux; I have not tested it on Windows, nor do I plan to.
