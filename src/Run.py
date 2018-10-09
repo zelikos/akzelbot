@@ -19,30 +19,17 @@ def console(line):
         return True
 
 
-def load_lists():
-    mods = []
-    puns = []
-    quotes = []
+def load_lists(item_type):
+    items = []
     try:
-        mod_list = open("../config/mod_list.txt", "r")
-        pun_list = open("../config/pun_list.txt", "r")
-        quote_list = open("../config/quote_list.txt", "r")
+        item_list = open("../config/" + item_type + "_list.txt", "r")
     except FileNotFoundError:
-        save_list("mod")
-        save_list("pun")
-        save_list("quote")
+        print(item_type.title() + "list not found, creating new.")
     else:
-        for line in mod_list:
-            mods.append(line.strip())
-        for line in pun_list:
-            puns.append(line.strip())
-        for line in quote_list:
-            quotes.append(line.strip())
-    finally:
-        mod_list.close()
-        pun_list.close()
-        quote_list.close()
-    return mods, puns, quotes
+        for line in item_list:
+            items.append(line.strip())
+        item_list.close()
+    return items
 
 
 def load_commands():
@@ -50,17 +37,16 @@ def load_commands():
     try:
         command_list = open("../config/command_list.txt", "r")
     except FileNotFoundError:
-        save_list("command")
+        print("Command list not found, creating new.")
     else:
         for command in command_list:
             listedLine = command.strip().split()
             commands[listedLine[0]] = (' ').join(listedLine[1:])
-    finally:
         command_list.close()
     return commands
 
 
-mods, puns, quotes = load_lists()
+mods, puns, quotes = load_lists("mod"), load_lists("pun"), load_lists("quote")
 commands = load_commands()
 
 
@@ -133,17 +119,18 @@ def del_mod(input):
 
 
 def add_item(input, item_type):
-    if item_type == "pun":
-        puns.append(new_item(input))
-        sendMessage(s, "Pun added.")
-    elif item_type == "quote":
-        quotes.append(new_item(input))
-        sendMessage(s, "Quote added.")
-    elif item_type == "mod":
-        add_mod(input)
-    elif item_type == "command":
-        add_command(input)
-    save_list(item_type)
+    if len(new_item(input)) >= 1:
+        if item_type == "pun":
+            puns.append(new_item(input))
+            sendMessage(s, "Pun added.")
+        elif item_type == "quote":
+            quotes.append(new_item(input))
+            sendMessage(s, "Quote added.")
+        elif item_type == "mod":
+            add_mod(input)
+        elif item_type == "command":
+            add_command(input)
+        save_list(item_type)
 
 
 while True:
@@ -180,9 +167,15 @@ while True:
         if first_word in commands:
             sendMessage(s, str(commands[first_word]))
         if "!pun" == first_word:
-            sendMessage(s, str(random.choice(puns)))
+            try:
+                sendMessage(s, str(random.choice(puns)))
+            except IndexError:
+                sendMessage(s, "Sadly, I have no puns to choose from. Try adding one with !addpun")
         if "!quote" == first_word:
-            sendMessage(s, str(random.choice(quotes)))
+            try:
+                sendMessage(s, str(random.choice(quotes)))
+            except IndexError:
+                sendMessage(s, "Sadly, I have no quotes to choose from. Try adding one with !addquote")
         if "!addquote" == first_word:
             if user in mods or user == CHANNEL:
                 add_item(message, "quote")
