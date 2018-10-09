@@ -16,6 +16,10 @@
 # Boston, MA 02110-1301 USA
 
 
+# Note: Currently, the settings are saved in a plain text file.
+# This includes the OAuth for the bot's Twitch channel.
+
+
 import sys
 
 
