@@ -11,4 +11,4 @@
 - Run `python3 Run.py` from the `src` folder
 
 
-Note: I've only tested and used AkzelBot on Linux; I have not tested it on Windows, nor do I plan to.
+Note: AkzelBot has, so far, only been tested on Linux.
