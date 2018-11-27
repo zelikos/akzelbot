@@ -145,12 +145,16 @@ while True:
             try:
                 sendMessage(s, str(random.choice(puns)))
             except IndexError:
-                sendMessage(s, "Sadly, I have no puns to choose from. Try adding one with !addpun")
+                sendMessage(s, "Sadly, I have no puns to choose from.")
+                time.sleep(0.7)
+                sendMessage(s, "Try adding one with !addpun")
         if "!quote" == first_word:
             try:
                 sendMessage(s, str(random.choice(quotes)))
             except IndexError:
-                sendMessage(s, "Sadly, I have no quotes to choose from. Try adding one with !addquote")
+                sendMessage(s, "Sadly, I have no quotes to choose from.")
+                time.sleep(0.7)
+                sendMessage(s, "Try adding one with !addquote")
         if "!addquote" == first_word:
             if user in mods or user == CHANNEL:
                 add_item(message, "quote")
