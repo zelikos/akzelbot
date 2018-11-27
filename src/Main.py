@@ -21,12 +21,17 @@ import random
 import time
 import sys
 from Read import getUser, getMessage
-from Socket import openSocket, sendMessage
-from Initialize import joinRoom, CHANNEL
+from Socket import openSocket
+from Initialize import joinRoom, config, CHANNEL, save_config, sendMessage
+
 
 s = openSocket()
 joinRoom(s)
 readbuffer = ""
+mods = config["mods"]
+puns = config["puns"]
+quotes = config["quotes"]
+commands = config["commands"]
 
 
 def console(line):
@@ -35,23 +40,6 @@ def console(line):
         return False
     else:
         return True
-
-
-def save_list(item_type):
-    item_list = open(("../config/" + item_type + "_list.txt"), "w")
-    if item_type == "mod":
-        for mod in mods:
-            print(mod, file = item_list)
-    elif item_type == "pun":
-        for pun in puns:
-            print(pun, file = item_list)
-    elif item_type == "quote":
-        for quote in quotes:
-            print(quote, file = item_list)
-    elif item_type == "command":
-        for command in commands.keys():
-            print(str(command) + " " + str(commands[command]), file = item_list)
-    item_list.close()
 
 
 def new_item(input):
@@ -83,7 +71,7 @@ def del_command(input):
         sendMessage(s, "Command removed.")
     else:
         sendMessage(s, "No command found.")
-    save_list("command")
+    save_config()
 
 
 def add_mod(input):
@@ -102,7 +90,7 @@ def del_mod(input):
     elif new_item(input) in mods:
         mods.remove(new_item(input))
         sendMessage(s, "Moderator removed.")
-    save_list("mod")
+    save_config()
 
 
 def add_item(input, item_type):
@@ -117,7 +105,7 @@ def add_item(input, item_type):
             add_mod(input)
         elif item_type == "command":
             add_command(input)
-        save_list(item_type)
+        save_config()
 
 
 while True:
@@ -179,7 +167,7 @@ while True:
             if user == CHANNEL or user in mods:
                 add_item(message, "command")
             else:
-                sendMessage("Only the moderators can alter commands.")
+                sendMessage("Only moderators can add commands.")
         if "!delcommand" == first_word:
             if user == CHANNEL:
                 del_command(message)

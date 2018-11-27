@@ -1,6 +1,10 @@
-from Socket import sendMessage
 import json
 import sys
+
+
+def sendMessage(s, message):
+    messageTemp = "PRIVMSG #" + CHANNEL + " :" + message
+    s.send((messageTemp + "\r\n").encode())
 
 
 def load_config():
@@ -8,7 +12,7 @@ def load_config():
         config_file = open("../config/config.json")
     except FileNotFoundError:
         print("Config file not found.")
-        initial_setup()
+#        initial_setup()
     else:
         config = json.load(config_file)
     finally:
@@ -16,8 +20,13 @@ def load_config():
     return config
 
 
-#def initial_setup():
+def save_config():
+    with open('../config/config.json', 'w') as outfile:
+        json.dump(config, outfile)
 
+
+#def initial_setup():
+config = load_config()
 
 
 def joinRoom(s):
@@ -32,7 +41,7 @@ def joinRoom(s):
         for line in temp:
             Loading = loadingComplete(line)
     sendMessage(s, "Successfully joined chat.")
-    print(config["login"["account"]] " has joined " + config["login"["channel"]])
+    print(config["login"]["account"] + " has joined " + CHANNEL)
 
 
 def loadingComplete(line):
@@ -42,11 +51,8 @@ def loadingComplete(line):
         return True
 
 
-config = load_config()
-
-
 HOST = "irc.twitch.tv"
 PORT = 6667
-PASS = config["login"["oauth"]]
-IDENT = config["login"["account"]]
-CHANNEL = config["login"["channel"]]
+PASS = config["login"]["oauth"]
+IDENT = config["login"]["account"]
+CHANNEL = config["login"]["channel"]
