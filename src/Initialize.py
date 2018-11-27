@@ -1,5 +1,23 @@
 from Socket import sendMessage
-from Settings import CHANNEL
+import json
+import sys
+
+
+def load_config():
+    try:
+        config_file = open("../config/config.json")
+    except FileNotFoundError:
+        print("Config file not found.")
+        initial_setup()
+    else:
+        config = json.load(config_file)
+    finally:
+        config_file.close()
+    return config
+
+
+#def initial_setup():
+
 
 
 def joinRoom(s):
@@ -14,7 +32,7 @@ def joinRoom(s):
         for line in temp:
             Loading = loadingComplete(line)
     sendMessage(s, "Successfully joined chat.")
-    print("akzelbot has joined " + CHANNEL)
+    print(config["login"["account"]] " has joined " + config["login"["channel"]])
 
 
 def loadingComplete(line):
@@ -22,3 +40,13 @@ def loadingComplete(line):
         return False
     else:
         return True
+
+
+config = load_config()
+
+
+HOST = "irc.twitch.tv"
+PORT = 6667
+PASS = config["login"["oauth"]]
+IDENT = config["login"["account"]]
+CHANNEL = config["login"["channel"]]

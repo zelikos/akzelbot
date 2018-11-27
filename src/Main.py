@@ -16,13 +16,13 @@
 # Boston, MA 02110-1301 USA
 
 
+import json
 import random
 import time
 import sys
 from Read import getUser, getMessage
 from Socket import openSocket, sendMessage
-from Initialize import joinRoom
-from Settings import CHANNEL
+from Initialize import joinRoom, CHANNEL
 
 s = openSocket()
 joinRoom(s)
@@ -35,37 +35,6 @@ def console(line):
         return False
     else:
         return True
-
-
-def load_lists(item_type):
-    items = []
-    try:
-        item_list = open("../config/" + item_type + "_list.txt", "r")
-    except FileNotFoundError:
-        print(item_type.title() + "list not found, creating new.")
-    else:
-        for line in item_list:
-            items.append(line.strip())
-        item_list.close()
-    return items
-
-
-def load_commands():
-    commands = {}
-    try:
-        command_list = open("../config/command_list.txt", "r")
-    except FileNotFoundError:
-        print("Command list not found, creating new.")
-    else:
-        for command in command_list:
-            listedLine = command.strip().split()
-            commands[listedLine[0]] = (' ').join(listedLine[1:])
-        command_list.close()
-    return commands
-
-
-mods, puns, quotes = load_lists("mod"), load_lists("pun"), load_lists("quote")
-commands = load_commands()
 
 
 def save_list(item_type):
