@@ -9,24 +9,40 @@ def sendMessage(s, message):
 
 def load_config():
     try:
-        config_file = open("../config/config.json")
+        config_file = open("../config.json")
     except FileNotFoundError:
         print("Config file not found.")
-#        initial_setup()
+        print("Starting initial setup...")
+        return initial_setup()
     else:
         config = json.load(config_file)
-    finally:
         config_file.close()
     return config
 
 
 def save_config():
-    with open('../config/config.json', 'w') as outfile:
+    with open('../config.json', 'w') as outfile:
         json.dump(config, outfile)
 
 
-#def initial_setup():
+def initial_setup():
+    bot_account = input("Enter bot's Twitch account name: ")
+    print("Next, generate an oauth token (i.e. from https://twitchapps.com/tmi/) for the bot's account.")
+    bot_oauth = input("Enter it here: ")
+    user_channel = input("Finally, enter the name of the channel that the bot will monitor: ")
+    print("Creating config.json...")
+    config = {"login": {"account": bot_account,
+                        "oauth": bot_oauth,
+                        "channel": user_channel},
+            "mods": [],
+            "puns": [],
+            "quotes": [],
+            "commands": {}}
+    return config
+
+
 config = load_config()
+save_config()
 
 
 def joinRoom(s):
