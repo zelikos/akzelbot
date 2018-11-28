@@ -57,7 +57,7 @@ def joinRoom(s):
         for line in temp:
             Loading = loadingComplete(line)
     sendMessage(s, "Successfully joined chat.")
-    print(config["login"]["account"] + " has joined " + CHANNEL)
+    print(IDENT + " has joined " + CHANNEL)
 
 
 def loadingComplete(line):
