@@ -16,17 +16,22 @@
 # Boston, MA 02110-1301 USA
 
 
+import json
 import random
 import time
 import sys
 from Read import getUser, getMessage
-from Socket import openSocket, sendMessage
-from Initialize import joinRoom
-from Settings import CHANNEL
+from Socket import openSocket
+from Initialize import joinRoom, config, CHANNEL, save_config, sendMessage
+
 
 s = openSocket()
 joinRoom(s)
 readbuffer = ""
+mods = config["mods"]
+puns = config["puns"]
+quotes = config["quotes"]
+commands = config["commands"]
 
 
 def console(line):
@@ -35,54 +40,6 @@ def console(line):
         return False
     else:
         return True
-
-
-def load_lists(item_type):
-    items = []
-    try:
-        item_list = open("../config/" + item_type + "_list.txt", "r")
-    except FileNotFoundError:
-        print(item_type.title() + "list not found, creating new.")
-    else:
-        for line in item_list:
-            items.append(line.strip())
-        item_list.close()
-    return items
-
-
-def load_commands():
-    commands = {}
-    try:
-        command_list = open("../config/command_list.txt", "r")
-    except FileNotFoundError:
-        print("Command list not found, creating new.")
-    else:
-        for command in command_list:
-            listedLine = command.strip().split()
-            commands[listedLine[0]] = (' ').join(listedLine[1:])
-        command_list.close()
-    return commands
-
-
-mods, puns, quotes = load_lists("mod"), load_lists("pun"), load_lists("quote")
-commands = load_commands()
-
-
-def save_list(item_type):
-    item_list = open(("../config/" + item_type + "_list.txt"), "w")
-    if item_type == "mod":
-        for mod in mods:
-            print(mod, file = item_list)
-    elif item_type == "pun":
-        for pun in puns:
-            print(pun, file = item_list)
-    elif item_type == "quote":
-        for quote in quotes:
-            print(quote, file = item_list)
-    elif item_type == "command":
-        for command in commands.keys():
-            print(str(command) + " " + str(commands[command]), file = item_list)
-    item_list.close()
 
 
 def new_item(input):
@@ -114,7 +71,7 @@ def del_command(input):
         sendMessage(s, "Command removed.")
     else:
         sendMessage(s, "No command found.")
-    save_list("command")
+    save_config()
 
 
 def add_mod(input):
@@ -133,7 +90,7 @@ def del_mod(input):
     elif new_item(input) in mods:
         mods.remove(new_item(input))
         sendMessage(s, "Moderator removed.")
-    save_list("mod")
+    save_config()
 
 
 def add_item(input, item_type):
@@ -148,7 +105,7 @@ def add_item(input, item_type):
             add_mod(input)
         elif item_type == "command":
             add_command(input)
-        save_list(item_type)
+        save_config()
 
 
 while True:
@@ -188,12 +145,16 @@ while True:
             try:
                 sendMessage(s, str(random.choice(puns)))
             except IndexError:
-                sendMessage(s, "Sadly, I have no puns to choose from. Try adding one with !addpun")
+                sendMessage(s, "Sadly, I have no puns to choose from.")
+                time.sleep(0.7)
+                sendMessage(s, "Try adding one with !addpun")
         if "!quote" == first_word:
             try:
                 sendMessage(s, str(random.choice(quotes)))
             except IndexError:
-                sendMessage(s, "Sadly, I have no quotes to choose from. Try adding one with !addquote")
+                sendMessage(s, "Sadly, I have no quotes to choose from.")
+                time.sleep(0.7)
+                sendMessage(s, "Try adding one with !addquote")
         if "!addquote" == first_word:
             if user in mods or user == CHANNEL:
                 add_item(message, "quote")
@@ -210,7 +171,7 @@ while True:
             if user == CHANNEL or user in mods:
                 add_item(message, "command")
             else:
-                sendMessage("Only the moderators can alter commands.")
+                sendMessage("Only moderators can add commands.")
         if "!delcommand" == first_word:
             if user == CHANNEL:
                 del_command(message)
