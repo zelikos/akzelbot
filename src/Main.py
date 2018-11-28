@@ -155,11 +155,6 @@ while True:
                 sendMessage(s, "Sadly, I have no quotes to choose from.")
                 time.sleep(0.7)
                 sendMessage(s, "Try adding one with !addquote")
-        if "!addquote" == first_word:
-            if user in mods or user == CHANNEL:
-                add_item(message, "quote")
-            elif not user in mods:
-                sendMessage(s, "Only moderators can append the quote list.")
         if "!addpun" == first_word:
             if user in mods or user == CHANNEL:
                 add_item(message, "pun")
@@ -167,7 +162,12 @@ while True:
                 sendMessage(s, "Only moderators can apPUNd the pun list.")
                 time.sleep(0.7)
                 sendMessage(s, "Sorry, that was terrible.")
-        if "!command" == first_word:
+        if "!addquote" == first_word:
+            if user in mods or user == CHANNEL:
+                add_item(message, "quote")
+            elif not user in mods:
+                sendMessage(s, "Only moderators can append the quote list.")
+        if "!addcommand" == first_word:
             if user == CHANNEL or user in mods:
                 add_item(message, "command")
             else:
