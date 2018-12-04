@@ -29,4 +29,4 @@ These commands are those built-in to the code, that perform a specific function.
 Note: AkzelBot has, so far, only been tested on Linux.
 
 ## Credit:
-Based on BadNidalee's bot: https://github.com/BadNidalee/ChatBot
+Based on [BadNidalee's bot](https://github.com/BadNidalee/ChatBot)
