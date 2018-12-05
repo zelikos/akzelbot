@@ -1,5 +1,6 @@
 # AkzelBot
 
+![Screenshot](data/akzelbot_screenshot.png?raw=true)
 
 ## Setup:
 
@@ -10,7 +11,7 @@
 
 ## Built-in commands:
 
-These commands are those built-in to the code, that perform a specific function. Other commands that just have AkzelBot send a specific message to chat are stored in the `config.json` file. All commands are accessed through Twitch chat.
+These commands are those built-in to the code, that perform a specific function. Other commands that just have AkzelBot send a specific message to chat are stored in the `config.json` file (created during initial setup). All commands are accessed through Twitch chat.
 - `!pun` and `!quote`: return a random pun or quote from the respective lists stored in `config.json`
 - `!addpun` and `!addquote`: add a pun or quote to the respective lists in `config.json`
     - Example: !addpun This is a pun
