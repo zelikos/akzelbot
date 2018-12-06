@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=AkzelBot
+GenericName=Twitch Chat Bot
+Comment=Custom bot to monitor chat of a given Twitch channel
+Categories=Internet;
+Exec=com.github.akzel94.akzelbot
+Icon=internet-chat
+Terminal=true
+Type=Application
+Keywords=Internet;Twitch;Chat;Bot;
