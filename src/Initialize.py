@@ -27,7 +27,7 @@ def sendMessage(s, message):
 
 def load_config():
     try:
-        config_file = open("../config.json")
+        config_file = open("../data/config.json")
     except FileNotFoundError:
         print("Config file not found.")
         print("Starting initial setup...")
@@ -39,7 +39,7 @@ def load_config():
 
 
 def save_config():
-    with open('../config.json', 'w') as outfile:
+    with open('../data/config.json', 'w') as outfile:
         json.dump(config, outfile)
 
 
