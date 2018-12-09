@@ -20,11 +20,6 @@ import json
 import sys
 
 
-def sendMessage(s, message):
-    messageTemp = "PRIVMSG #" + CHANNEL + " :" + message
-    s.send((messageTemp + "\r\n").encode())
-
-
 def load_config():
     try:
         config_file = open("../data/config.json")

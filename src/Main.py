@@ -21,7 +21,6 @@ import random
 import time
 import sys
 from Read import getUser, getMessage
-from Socket import openSocket
 from Initialize import joinRoom, config, CHANNEL, save_config, sendMessage
 
 
@@ -134,7 +133,7 @@ while True:
         PMSG = "/w" + user + " "
 
 
-###### COMMANDS ######
+        # COMMANDS
 
         # Takes first word of a user's message
         first_word = message.split()[0]
