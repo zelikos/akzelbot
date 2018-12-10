@@ -36,7 +36,7 @@ def load_lists():
     try:
         lists_file = open('../data/lists.json')
     except FileNotFoundError:
-        lists = ("mods": [], "puns": [], "quotes": [], "commands": {})
+        lists = {"mods": [], "puns": [], "quotes": [], "commands": {}}
     else:
         lists = json.load(lists_file)
         lists_file.close()
