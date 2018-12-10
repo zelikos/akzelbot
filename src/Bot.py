@@ -19,9 +19,10 @@
 import random
 import socket
 import sys
+import time
 
 
-class Bot:self.bot_commands
+class Bot:
     def __init__(self, username, oauth, channel, lists, HOST = "irc.twitch.tv", PORT = 6667):
         self.username = username
         self.oauth = oauth
@@ -55,7 +56,7 @@ class Bot:self.bot_commands
             new_item = input.split()
             new_item = (" ").join(new_item[1:])
         except IndexError:
-            break
+            pass
         else:
             return new_item
 
@@ -64,22 +65,26 @@ class Bot:self.bot_commands
         try:
             self.sendMessage(self.s, str(random.choice(self.puns)))
         except IndexError:
-            break
+            self.sendMessage(self.s, "No puns available. Try adding one with !addpun")
 
 
     def get_quote(self, input):
         try:
-            self.sendMessage(self.s str(random.choice(self.quotes)))
+            self.sendMessage(self.s, str(random.choice(self.quotes)))
         except IndexError:
-            break
+            self.sendMessage(self.s, "No quotes available. Try adding one with !addquote")
 
 
     def add_pun(self, input):
-        pass
+        if len(self.new_item(input)) >= 1:
+            self.puns.append(self.new_item(input))
+            self.sendMessage(self.s, "Pun added.")
 
 
     def add_quote(self, input):
-        pass
+        if len(self.new_item(input)) >= 1:
+            self.quotes.append(self.new_item(input))
+            self.sendMessage(self.s, "Quote added.")
 
 
     def add_command(self, input):
@@ -104,7 +109,7 @@ class Bot:self.bot_commands
 
     def add_mod(self, input):
         if self.new_item(input) == self.channel:
-            self.sendMessage(self.s, "...Dood, really?")
+            self.sendMessage(self.s, "...Really?")
         elif self.new_item(input) in self.mods:
             self.sendMessage(self.s, "User is already a moderator.")
         else:
@@ -120,15 +125,19 @@ class Bot:self.bot_commands
             self.sendMessage(self.s, "Moderator removed.")
 
 
-    def close_bot():
-        pass
+    def close_bot(self):
+        self.sendMessage(self.s, "Exiting.")
+        time.sleep(0.7)
+        sys.exit(0)
 
 
-    def kill_bot():
-        pass
+    def kill_bot(self):
+        self.sendMessage(self.s, "AAAGGGHHH!")
+        time.sleep(0.7)
+        sys.exit(0)
 
 
-    def openSocket():
+    def openSocket(self):
         s = socket.socket()
         s.connect((self.HOST, self.PORT))
         s.send(("PASS " + self.oauth + "\r\n").encode())
@@ -149,7 +158,7 @@ class Bot:self.bot_commands
             for line in temp:
                 Loading = self.loadingComplete(line)
         self.sendMessage(self.s, "Successfully joined chat.")
-        print(IDENT + " has joined " + CHANNEL)
+        print(self.username + " has joined " + self.channel)
 
 
     def loadingComplete(self, line):
@@ -160,5 +169,5 @@ class Bot:self.bot_commands
 
 
     def sendMessage(self, s, message):
-        messageTemp = "PRIVMSG #" + CHANNEL + " :" + message
+        messageTemp = "PRIVMSG #" + self.channel + " :" + message
         s.send((messageTemp + "\r\n").encode())

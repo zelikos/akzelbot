@@ -20,12 +20,12 @@
 
 import time
 from Bot import Bot
-from Config import save_lists, config, lists
+from Initialize import save_lists, config, lists
 
 
-account = config["login"]["account"]
-oauth = config["login"]["oauth"]
-channel = config["login"]["channel"]
+account = config["account"]
+oauth = config["oauth"]
+channel = config["channel"]
 
 akzelbot = Bot(account, oauth, channel, lists)
 
@@ -86,73 +86,52 @@ while True:
 
         # Takes first word of a user's message
         first_word = message.split()[0]
-        if first_word in akzelbot.bot_commands:
-            akzelbot.run_command()
+        if first_word in akzelbot.local_commands:
+            akzelbot.run_command(first_word)
 
-
-
-
-        if first_word in commands:
-            sendMessage(s, str(commands[first_word]))
         if "!pun" == first_word:
-            try:
-                sendMessage(s, str(random.choice(puns)))
-            except IndexError:
-                sendMessage(s, "Sadly, I have no puns to choose from.")
-                time.sleep(0.7)
-                sendMessage(s, "Try adding one with !addpun")
+            akzelbot.get_pun(first_word)
         if "!quote" == first_word:
-            try:
-                sendMessage(s, str(random.choice(quotes)))
-            except IndexError:
-                sendMessage(s, "Sadly, I have no quotes to choose from.")
-                time.sleep(0.7)
-                sendMessage(s, "Try adding one with !addquote")
+            akzelbot.get_quote(first_word)
         if "!addpun" == first_word:
-            if user in mods or user == CHANNEL:
-                add_item(message, "pun")
-            elif not user in mods:
-                sendMessage(s, "Only moderators can apPUNd the pun list.")
-                time.sleep(0.7)
-                sendMessage(s, "Sorry, that was terrible.")
+            akzelbot.add_pun(message)
+            save_lists()
         if "!addquote" == first_word:
-            if user in mods or user == CHANNEL:
-                add_item(message, "quote")
-            elif not user in mods:
-                sendMessage(s, "Only moderators can append the quote list.")
+            akzelbot.add_quote(message)
+            save_lists()
         if "!addcommand" == first_word:
-            if user == CHANNEL or user in mods:
-                add_item(message, "command")
+            if user == akzelbot.channel or user in akzelbot.mods:
+                akzelbot.add_command(message)
+                save_lists()
             else:
-                sendMessage("Only moderators can add commands.")
+                akzelbot.sendMessage(akzelbot.s, "Only moderators can add commands.")
         if "!delcommand" == first_word:
-            if user == CHANNEL:
-                del_command(message)
+            if user == akzelbot.channel:
+                akzelbot.del_command(message)
+                save_lists()
             else:
-                sendMessage("Only the channel owner can remove commands.")
+                akzelbot.sendMessage(akzelbot.s, "Only the channel owner can remove commands.")
         if "!addmod" == first_word:
-            if user == CHANNEL:
-                add_item(message, "mod")
+            if user == akzelbot.channel:
+                akzelbot.add_mod(message)
+                save_lists()
             else:
-                sendMessage(s, "Only the channel owner can add mods.")
+                akzelbot.sendMessage(akzelbot.s, "Only the channel owner can add mods.")
         if "!delmod" == first_word:
-            if user == CHANNEL:
-                del_mod(message)
+            if user == akzelbot.channelL:
+                akzelbot.del_mod(message)
+                save_lists()
             else:
-                sendMessage(s, "Only the channel owner can remove mods.")
+                akzelbot.sendMessage(akzelbot.s, "Only the channel owner can remove mods.")
 
         if "!quit" == first_word:
-            if user == CHANNEL:
-                sendMessage(s, "Exiting.")
-                time.sleep(0.7)
-                sys.exit(0)
+            if user == akzelbot.channel:
+                akzelbot.close_bot()
 
         if "!kill" == first_word:
-            if user != CHANNEL and user in mods:
-                sendMessage(s, "You cannot kill that which is immortal.")
-            elif user == CHANNEL:
-                sendMessage(s, "AAAGGGHHH!")
-                time.sleep(0.7)
-                sys.exit(0)
+            if user != akzelbot.channel and user in akzelbot.mods:
+                akzelbot.sendMessage(akzelbot.s, "You cannot kill that which is immortal.")
+            elif user == akzelbot.channel:
+                akzelbot.kill_bot()
 
     time.sleep(0.7)
