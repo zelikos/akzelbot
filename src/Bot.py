@@ -1,3 +1,25 @@
+# Copyright (c) 2018 Patrick Csikos (https://github.com/Akzel94)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public
+# License along with this program; if not, write to the
+# Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+# Boston, MA 02110-1301 USA
+
+
+import socket
+import sys
+
+
 class Bot:
     def __init__(self, username, oauth, channel, lists, HOST = "irc.twitch.tv", PORT = 6667):
         self.username = username
@@ -5,7 +27,10 @@ class Bot:
         self.channel = channel
         self.HOST = HOST
         self.PORT = PORT
-        self.local_commands = lists
+        self.mods = lists["mods"]
+        self.puns = lists["puns"]
+        self.quotes = lists["quotes"]
+        self.local_commands = lists["commands"]
         self.bot_commands = {'!pun': get_pun,
                              '!quote': get_quote,
                              '!addpun': add_pun,
@@ -90,19 +115,28 @@ class Bot:
             sendMessage(s, "Moderator removed.")
 
 
+    def joinRoom(self, s):
+        readbuffer_join = "".encode()
+        Loading = True
+        while Loading:
+            readbuffer_join = s.recv(1024)
+            readbuffer_join = readbuffer_join.decode()
+            temp = readbuffer_join.split("\n")
+            readbuffer_join = readbuffer_join.encode()
+            readbuffer_join = temp.pop()
+            for line in temp:
+                Loading = loadingComplete(line)
+        sendMessage(s, "Successfully joined chat.")
+        print(IDENT + " has joined " + CHANNEL)
 
 
-    # def add_item(input, item_type):
-    #     if len(new_item(input)) >= 1:
-    #         if item_type == "pun":
-    #             puns.append(new_item(input))
-    #             sendMessage(s, "Pun added.")
-    #         elif item_type == "quote":
-    #             quotes.append(new_item(input))
-    #             sendMessage(s, "Quote added.")
-    #         elif item_type == "mod":
-    #             add_mod(input)
-    #             save_config()
-    #         elif item_type == "command":
-    #             add_command(input)
-    #             save_config()
+    def loadingComplete(self, line):
+        if("End of /NAMES list" in line):
+            return False
+        else:
+            return True
+
+
+    def sendMessage(self, s, message):
+        messageTemp = "PRIVMSG #" + CHANNEL + " :" + message
+        s.send((messageTemp + "\r\n").encode())
