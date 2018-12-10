@@ -21,7 +21,7 @@ import socket
 import sys
 
 
-class Bot:
+class Bot:self.bot_commands
     def __init__(self, username, oauth, channel, lists, HOST = "irc.twitch.tv", PORT = 6667):
         self.username = username
         self.oauth = oauth
@@ -33,16 +33,16 @@ class Bot:
         self.puns = lists["puns"]
         self.quotes = lists["quotes"]
         self.local_commands = lists["commands"]
-        self.bot_commands = {'!pun': get_pun,
-                             '!quote': get_quote,
-                             '!addpun': add_pun,
-                             '!addquote': add_quote,
-                             '!addcommand': add_command,
-                             '!delcommand': del_command,
-                             '!addmod': add_mod,
-                             '!delmod': del_mod,
-                             '!quit': close_bot,
-                             '!kill': kill_bot}
+        # self.bot_commands = {'!pun': get_pun,
+        #                      '!quote': get_quote,
+        #                      '!addpun': add_pun,
+        #                      '!addquote': add_quote,
+        #                      '!addcommand': add_command,
+        #                      '!delcommand': del_command,
+        #                      '!addmod': add_mod,
+        #                      '!delmod': del_mod,
+        #                      '!quit': close_bot,
+        #                      '!kill': kill_bot}
 
 
     def run_command(self, parameter):
