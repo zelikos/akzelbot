@@ -18,7 +18,6 @@
 # Boston, MA 02110-1301 USA
 
 
-import socket
 import time
 from Bot import Bot
 from Config import save_lists, config, lists
@@ -31,16 +30,7 @@ channel = config["login"]["channel"]
 akzelbot = Bot(account, oauth, channel, lists)
 
 
-def openSocket():
-    s = socket.socket()
-    s.connect((akzelbot.HOST, akzelbot.PORT))
-    s.send(("PASS " + akzelbot.oauth + "\r\n").encode())
-    s.send(("NICK " + akzelbot.username + "\r\n").encode())
-    s.send(("JOIN #" + akzelbot.channel + "\r\n").encode())
-    return s
-
-
-s = openSocket()
+s = akzelbot.openSocket()
 akzelbot.joinRoom(s)
 readbuffer = ""
 
@@ -96,6 +86,11 @@ while True:
 
         # Takes first word of a user's message
         first_word = message.split()[0]
+        if first_word in akzelbot.bot_commands:
+            akzelbot.run_command()
+
+
+
 
         if first_word in commands:
             sendMessage(s, str(commands[first_word]))

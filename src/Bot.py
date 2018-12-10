@@ -28,6 +28,7 @@ class Bot:
         self.channel = channel
         self.HOST = HOST
         self.PORT = PORT
+        self.s = self.openSocket()
         self.mods = lists["mods"]
         self.puns = lists["puns"]
         self.quotes = lists["quotes"]
@@ -44,11 +45,8 @@ class Bot:
                              '!kill': kill_bot}
 
 
-    def run_command(self, parameter, input):
-        if parameter in self.bot_commands:
-            self.bot_commands[parameter](input)
-        elif parameter in self.local_commands:
-            pass
+    def run_command(self, parameter):
+        self.sendMessage(self.s, self.local_commands[parameter])
 
 
     def new_item(self, input):
@@ -57,17 +55,23 @@ class Bot:
             new_item = input.split()
             new_item = (" ").join(new_item[1:])
         except IndexError:
-            self.sendMessage(s, '/w ' + user + ' Syntax: !command argument')
+            break
         else:
             return new_item
 
 
     def get_pun(self, input):
-        pass
+        try:
+            self.sendMessage(self.s, str(random.choice(self.puns)))
+        except IndexError:
+            break
 
 
     def get_quote(self, input):
-        pass
+        try:
+            self.sendMessage(self.s str(random.choice(self.quotes)))
+        except IndexError:
+            break
 
 
     def add_pun(self, input):
@@ -81,39 +85,56 @@ class Bot:
     def add_command(self, input):
         new_command = input.split()
         if len(new_command) <= 2:
-            self.sendMessage(s, "Syntax: '!command !newcommand command-text'")
+            self.sendMessage(self.s, "Syntax: '!command !newcommand command-text'")
         elif new_command[1][0] != "!":
-            self.sendMessage(s, "Keyword must be prefixed with '!'.")
+            self.sendMessage(self.s, "Keyword must be prefixed with '!'.")
         else:
-            commands[new_command[1]] = (' ').join(new_command[2:])
-            self.sendMessage(s, "Command added.")
+            self.local_commands[new_command[1]] = (' ').join(new_command[2:])
+            self.sendMessage(self.s, "Command added.")
 
 
     def del_command(self, input):
         dead_command = input.split()[1]
-        if dead_command in commands.keys():
-            del commands[dead_command]
-            self.sendMessage(s, "Command removed.")
+        if dead_command in self.local_commands.keys():
+            del self.local_commands[dead_command]
+            self.sendMessage(self.s, "Command removed.")
         else:
-            self.sendMessage(s, "No command found.")
+            self.sendMessage(self.s, "No command found.")
 
 
     def add_mod(self, input):
-        if new_item(input) == CHANNEL:
-            self.sendMessage(s, "...Dood, really?")
-        elif new_item(input) in mods:
-            self.sendMessage(s, "User is already a moderator.")
+        if self.new_item(input) == self.channel:
+            self.sendMessage(self.s, "...Dood, really?")
+        elif self.new_item(input) in self.mods:
+            self.sendMessage(self.s, "User is already a moderator.")
         else:
-            mods.append(new_item(input))
-            self.sendMessage(s, "Moderator added.")
+            self.mods.append(new_item(input))
+            self.sendMessage(self.s, "Moderator added.")
 
 
     def del_mod(self, input):
-        if new_item(input) == CHANNEL:
-            self.sendMessage(s, "Not possible.")
-        elif new_item(input) in mods:
-            mods.remove(new_item(input))
-            self.sendMessage(s, "Moderator removed.")
+        if self.new_item(input) == self.channel:
+            self.sendMessage(self.s, "Not possible.")
+        elif self.new_item(input) in self.mods:
+            self.mods.remove(new_item(input))
+            self.sendMessage(self.s, "Moderator removed.")
+
+
+    def close_bot():
+        pass
+
+
+    def kill_bot():
+        pass
+
+
+    def openSocket():
+        s = socket.socket()
+        s.connect((self.HOST, self.PORT))
+        s.send(("PASS " + self.oauth + "\r\n").encode())
+        s.send(("NICK " + self.username + "\r\n").encode())
+        s.send(("JOIN #" + self.channel + "\r\n").encode())
+        return s
 
 
     def joinRoom(self, s):
@@ -127,7 +148,7 @@ class Bot:
             readbuffer_join = temp.pop()
             for line in temp:
                 Loading = self.loadingComplete(line)
-        self.sendMessage(s, "Successfully joined chat.")
+        self.sendMessage(self.s, "Successfully joined chat.")
         print(IDENT + " has joined " + CHANNEL)
 
 
