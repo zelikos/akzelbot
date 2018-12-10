@@ -17,12 +17,11 @@
 
 
 import json
-import sys
 
 
 def load_config():
     try:
-        config_file = open("../data/config.json")
+        config_file = open('../data/config.json')
     except FileNotFoundError:
         print("Config file not found.")
         print("Starting initial setup...")
@@ -33,9 +32,27 @@ def load_config():
     return config
 
 
+def load_lists():
+    try:
+        lists_file = open('../data/lists.json')
+    except FileNotFoundError:
+        lists = ("mods": [], "puns": [], "quotes": [], "commands": {})
+    else:
+        lists = json.load(lists_file)
+        lists_file.close()
+    return lists
+
+
 def save_config():
     with open('../data/config.json', 'w') as outfile:
         json.dump(config, outfile)
+    outfile.close()
+
+
+def save_lists():
+    with open('../data/lists.json', 'w') as outfile:
+        json.dump(lists, outfile)
+    outfile.close()
 
 
 def initial_setup():
@@ -44,44 +61,11 @@ def initial_setup():
     bot_oauth = input("Enter it here: ")
     user_channel = input("Finally, enter the name of the channel that the bot will monitor: ")
     print("Creating config.json...")
-    config = {"login": {"account": bot_account,
-                        "oauth": bot_oauth,
-                        "channel": user_channel},
-            "mods": [],
-            "puns": [],
-            "quotes": [],
-            "commands": {}}
+    config = {"account": bot_account, "oauth": bot_oauth, "channel": user_channel}
     return config
 
 
 config = load_config()
+lists = load_lists()
 save_config()
-
-
-def joinRoom(s):
-    readbuffer_join = "".encode()
-    Loading = True
-    while Loading:
-        readbuffer_join = s.recv(1024)
-        readbuffer_join = readbuffer_join.decode()
-        temp = readbuffer_join.split("\n")
-        readbuffer_join = readbuffer_join.encode()
-        readbuffer_join = temp.pop()
-        for line in temp:
-            Loading = loadingComplete(line)
-    sendMessage(s, "Successfully joined chat.")
-    print(IDENT + " has joined " + CHANNEL)
-
-
-def loadingComplete(line):
-    if("End of /NAMES list" in line):
-        return False
-    else:
-        return True
-
-
-HOST = "irc.twitch.tv"
-PORT = 6667
-PASS = config["login"]["oauth"]
-IDENT = config["login"]["account"]
-CHANNEL = config["login"]["channel"]
+save_lists()
