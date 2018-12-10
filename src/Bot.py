@@ -16,6 +16,7 @@
 # Boston, MA 02110-1301 USA
 
 
+import random
 import socket
 import sys
 
@@ -56,7 +57,7 @@ class Bot:
             new_item = input.split()
             new_item = (" ").join(new_item[1:])
         except IndexError:
-            sendMessage(s, '/w ' + user + ' Syntax: !command argument')
+            self.sendMessage(s, '/w ' + user + ' Syntax: !command argument')
         else:
             return new_item
 
@@ -80,39 +81,39 @@ class Bot:
     def add_command(self, input):
         new_command = input.split()
         if len(new_command) <= 2:
-            sendMessage(s, "Syntax: '!command !newcommand command-text'")
+            self.sendMessage(s, "Syntax: '!command !newcommand command-text'")
         elif new_command[1][0] != "!":
-            sendMessage(s, "Keyword must be prefixed with '!'.")
+            self.sendMessage(s, "Keyword must be prefixed with '!'.")
         else:
             commands[new_command[1]] = (' ').join(new_command[2:])
-            sendMessage(s, "Command added.")
+            self.sendMessage(s, "Command added.")
 
 
     def del_command(self, input):
         dead_command = input.split()[1]
         if dead_command in commands.keys():
             del commands[dead_command]
-            sendMessage(s, "Command removed.")
+            self.sendMessage(s, "Command removed.")
         else:
-            sendMessage(s, "No command found.")
+            self.sendMessage(s, "No command found.")
 
 
     def add_mod(self, input):
         if new_item(input) == CHANNEL:
-            sendMessage(s, "...Dood, really?")
+            self.sendMessage(s, "...Dood, really?")
         elif new_item(input) in mods:
-            sendMessage(s, "User is already a moderator.")
+            self.sendMessage(s, "User is already a moderator.")
         else:
             mods.append(new_item(input))
-            sendMessage(s, "Moderator added.")
+            self.sendMessage(s, "Moderator added.")
 
 
     def del_mod(self, input):
         if new_item(input) == CHANNEL:
-            sendMessage(s, "Not possible.")
+            self.sendMessage(s, "Not possible.")
         elif new_item(input) in mods:
             mods.remove(new_item(input))
-            sendMessage(s, "Moderator removed.")
+            self.sendMessage(s, "Moderator removed.")
 
 
     def joinRoom(self, s):
@@ -125,8 +126,8 @@ class Bot:
             readbuffer_join = readbuffer_join.encode()
             readbuffer_join = temp.pop()
             for line in temp:
-                Loading = loadingComplete(line)
-        sendMessage(s, "Successfully joined chat.")
+                Loading = self.loadingComplete(line)
+        self.sendMessage(s, "Successfully joined chat.")
         print(IDENT + " has joined " + CHANNEL)
 
 
