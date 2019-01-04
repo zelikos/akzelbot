@@ -146,6 +146,10 @@ class Bot:
         return s
 
 
+    def getSocket(self):
+        return self.s
+
+
     def joinRoom(self, s):
         readbuffer_join = "".encode()
         Loading = True

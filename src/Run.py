@@ -30,7 +30,7 @@ channel = config["channel"]
 akzelbot = Bot(account, oauth, channel, lists)
 
 
-s = akzelbot.openSocket()
+s = akzelbot.getSocket()
 akzelbot.joinRoom(s)
 readbuffer = ""
 
