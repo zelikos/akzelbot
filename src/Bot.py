@@ -169,4 +169,8 @@ class Bot:
 
     def sendMessage(self, s, message):
         messageTemp = "PRIVMSG #" + self.channel + " :" + message
-        s.send((messageTemp + "\r\n").encode())
+        try:
+            s.send((messageTemp + "\r\n").encode())
+        except BrokenPipeError:
+            s = self.openSocket()
+            s.send((messageTemp + "\r\n").encode())
