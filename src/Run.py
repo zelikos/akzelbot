@@ -118,7 +118,7 @@ while True:
             else:
                 akzelbot.sendMessage(akzelbot.s, "Only the channel owner can add mods.")
         if "!delmod" == first_word:
-            if user == akzelbot.channelL:
+            if user == akzelbot.channel:
                 akzelbot.del_mod(message)
                 save_lists()
             else:
