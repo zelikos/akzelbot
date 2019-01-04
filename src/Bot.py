@@ -157,7 +157,6 @@ class Bot:
             readbuffer_join = temp.pop()
             for line in temp:
                 Loading = self.loadingComplete(line)
-        self.sendMessage(self.s, "Successfully joined chat.")
         print(self.username + " has joined " + self.channel)
 
 
