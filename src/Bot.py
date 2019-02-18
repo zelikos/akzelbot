@@ -126,15 +126,9 @@ class Bot:
 
 
     def close_bot(self):
-        self.sendMessage(self.s, "Exiting.")
         time.sleep(0.7)
         sys.exit(0)
 
-
-    def kill_bot(self):
-        self.sendMessage(self.s, "AAAGGGHHH!")
-        time.sleep(0.7)
-        sys.exit(0)
 
 
     def openSocket(self):

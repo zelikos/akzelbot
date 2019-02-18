@@ -134,12 +134,14 @@ while True:
 
         if "!quit" == first_word:
             if user == akzelbot.channel:
+                akzelbot.sendMessage(akzelbot.s, "Exiting.")
                 akzelbot.close_bot()
 
         if "!kill" == first_word:
             if user != akzelbot.channel and user in akzelbot.mods:
                 akzelbot.sendMessage(akzelbot.s, "You cannot kill that which is immortal.")
             elif user == akzelbot.channel:
-                akzelbot.kill_bot()
+                akzelbot.sendMessage(akzelbot.s, "AAAGGGHHH!")
+                akzelbot.close_bot()
 
     time.sleep(0.7)
