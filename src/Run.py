@@ -99,18 +99,26 @@ while True:
         if "!addquote" == first_word:
             akzelbot.add_quote(message)
             save_lists()
+
         if "!addcommand" == first_word:
             if user == akzelbot.channel or user in akzelbot.mods:
                 akzelbot.add_command(message)
                 save_lists()
             else:
                 akzelbot.sendMessage(akzelbot.s, "Only moderators can add commands.")
+        if "!command" == first_word:
+            if user == akzelbot.channel or user in akzelbot.mods:
+                akzelbot.add_command(message)
+                save_lists()
+            else:
+                akzelbot.sendMessage(akzelbot.s, "Only moderators can modify commands.")
         if "!delcommand" == first_word:
             if user == akzelbot.channel:
                 akzelbot.del_command(message)
                 save_lists()
             else:
                 akzelbot.sendMessage(akzelbot.s, "Only the channel owner can remove commands.")
+
         if "!addmod" == first_word:
             if user == akzelbot.channel:
                 akzelbot.add_mod(message)

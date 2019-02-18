@@ -90,7 +90,7 @@ class Bot:
     def add_command(self, input):
         new_command = input.split()
         if len(new_command) <= 2:
-            self.sendMessage(self.s, "Syntax: '!command !newcommand command-text'")
+            self.sendMessage(self.s, "Syntax: '!addcommand !newcommand command-text'")
         elif new_command[1][0] != "!":
             self.sendMessage(self.s, "Keyword must be prefixed with '!'.")
         else:
