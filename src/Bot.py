@@ -98,16 +98,18 @@ class Bot:
         self.raffle_entries.append(user)
 
 
-    def end_raffle(self):
-        self.raffle = False
+    def raffle_winner(self):
         self.sendMessage(self.s, "And the winner is...")
         winner = random.choice(self.raffle_entries)
         if winner == self.channel:
             self.sendMessage(self.s, "...{0}? Wat. You can't win your own raffle, dood.".format(winner))
-            self.raffle_entries = []
         else:
             self.sendMessage(self.s, "...{0}! Congratulations!".format(winner))
-            self.raffle_entries = []
+
+
+    def close_raffle(self):
+        self.raffle = False
+        self.raffle_entries = []
 
 
     def add_command(self, input):

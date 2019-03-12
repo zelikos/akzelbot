@@ -111,7 +111,11 @@ while True:
 
         if "!winner" == first_word:
             if akzelbot.raffle == True:
-                akzelbot.end_raffle()
+                akzelbot.raffle_winner()
+
+        if "!closeraffle" == first_word:
+            if user == akzelbot.channel or user in akzelbot.mods"
+                akzelbot.close_raffle()
 
         if "!addcommand" == first_word:
             if user == akzelbot.channel or user in akzelbot.mods:
