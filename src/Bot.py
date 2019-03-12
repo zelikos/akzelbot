@@ -103,9 +103,9 @@ class Bot:
         self.sendMessage(self.s, "And the winner is...")
         winner = random.choice(self.raffle_entries)
         streamerCount = 0
-        if winner = self.channel and streamerCount = 1:
+        if winner == self.channel and streamerCount == 1:
             self.sendMessage(self.s, "...OK, this is rigged. New raffle, please.")
-        elif winner = self.channel:
+        elif winner == self.channel:
             self.sendMessage(self.s, "...{0}? Wat. You can't win your own raffle, dood.".format(winner))
             streamerCount += 1
             self.end_raffle()
