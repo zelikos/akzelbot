@@ -100,6 +100,19 @@ while True:
             akzelbot.add_quote(message)
             save_lists()
 
+        if "!startraffle" == first_word:
+            if user == akzelbot.channel or user in akzelbot.mods:
+                akzelbot.start_raffle()
+
+        if "!raffle" == first_word:
+            if akzelbot.raffle = True:
+                if user not in akzelbot.raffle_entries:
+                    akzelbot.enter_raffle(user)
+
+        if "!winner" == first_word:
+            if akzelbot.raffle = True:
+                akzelbot.end_raffle()
+
         if "!addcommand" == first_word:
             if user == akzelbot.channel or user in akzelbot.mods:
                 akzelbot.add_command(message)
