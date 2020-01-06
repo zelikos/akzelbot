@@ -1,3 +1,4 @@
 config.json
 lists.json
 __pycache__
+.vscode
