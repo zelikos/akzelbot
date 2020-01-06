@@ -138,7 +138,7 @@ class Bot:
         elif self.new_item(input) in self.mods:
             self.sendMessage(self.s, "User is already a moderator.")
         else:
-            self.mods.append(new_item(input))
+            self.mods.append(self.new_item(input))
             self.sendMessage(self.s, "Moderator added.")
 
 
@@ -146,7 +146,7 @@ class Bot:
         if self.new_item(input) == self.channel:
             self.sendMessage(self.s, "Not possible.")
         elif self.new_item(input) in self.mods:
-            self.mods.remove(new_item(input))
+            self.mods.remove(self.new_item(input))
             self.sendMessage(self.s, "Moderator removed.")
 
 
