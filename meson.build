@@ -8,6 +8,8 @@ add_project_arguments(
     language: 'c'
 )
 
+subdir('src')
+
 asresources = gnome.compile_resources(
     'as-resources',
     join_paths('data', meson.project_name()) + '.gresource.xml',
@@ -29,6 +31,5 @@ executable(
 
 subdir('data')
 subdir('po')
-subdir('src')
 
 meson.add_install_script('meson/post_install.py')
