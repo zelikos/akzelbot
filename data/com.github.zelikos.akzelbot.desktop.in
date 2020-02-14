@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=AkzelBot
+GenericName=Twitch Chat Bot
+Comment=Does Twitch Bot stuff
+Categories=Network;
+Exec=com.github.zelikos.akzelbot
+Icon=com.github.zelikos.akzelbot
+Terminal=false
+Type=Application
+Keywords=Internet;Web;Twitch;Chat;Bot;Robot;
