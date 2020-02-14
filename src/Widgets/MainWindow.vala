@@ -16,11 +16,11 @@
  * Authored by Patrick Csikos <akzeldev@fastmail.com>
  */
 
-public class AkzelBot.Window : Gtk.ApplicationWindow {
+public class AkzelBot.MainWindow : Gtk.ApplicationWindow {
 
-    // private uint configure_id;
+    private uint configure_id;
 
-    public Window (Application app) {
+    public MainWindow (Application app) {
         Object (
             application: app
         );

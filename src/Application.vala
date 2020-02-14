@@ -18,12 +18,10 @@
 
 public class Application : Gtk.Application {
 
-    /*
     public static GLib.Settings settings;
     static construct {
         settings = new GLib.Settings ("com.github.zelikos.akzelbot");
     }
-    */
 
     public Application () {
         Object (
@@ -33,12 +31,9 @@ public class Application : Gtk.Application {
     }
 
     protected override void activate () {
-        /*
         var gtk_settings = Gtk.Settings.get_default ();
         gtk_settings.gtk_application_prefer_dark_theme = settings.get_boolean ("dark-style");
-         */
 
-        /*
         var provider = new Gtk.CssProvider ();
         provider.load_from_resource ("/com/github/zelikos/akzelbot/styles/Application.css");
         Gtk.StyleContext.add_provider_for_screen (
@@ -46,9 +41,8 @@ public class Application : Gtk.Application {
             provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );
-        */
 
-        var window = new AkzelBot.Window (this);
+        var window = new AkzelBot.MainWindow (this);
 
         add_window (window);
     }
