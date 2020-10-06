@@ -16,7 +16,7 @@
  * Authored by Patrick Csikos <akzeldev@fastmail.com>
  */
 
-public class AkzelBot.MainWindow : Gtk.ApplicationWindow {
+public class AkzelBot.MainWindow : Hdy.Window {
 
     private uint configure_id;
 
@@ -27,6 +27,8 @@ public class AkzelBot.MainWindow : Gtk.ApplicationWindow {
     }
 
     construct {
+        Hdy.init();
+        
         int window_x, window_y;
         var rect = Gtk.Allocation ();
         Application.settings.get ("window-position", "(ii)", out window_x, out window_y);
@@ -42,12 +44,28 @@ public class AkzelBot.MainWindow : Gtk.ApplicationWindow {
             maximize ();
         }
 
-        var header = new Gtk.HeaderBar ();
-        header.title = "AkzelBot";
-        header.show_close_button = true;
+        var header = new Hdy.HeaderBar () {
+            title = "AkzelBot",
+            show_close_button = true
+        };
+        
+        var placeholder_label = new Gtk.Label (null);
+        placeholder_label.label = "AAAHHH";
+        
+        var placeholder = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+            halign = Gtk.Align.CENTER,
+            margin = 12,
+            hexpand = true,
+            vexpand = true
+        };
+        
+        placeholder.add (placeholder_label);
+        
+        var main_view = new Gtk.Grid ();
+        main_view.attach (header, 0, 0);
+        main_view.attach (placeholder, 0, 1);
 
-        set_titlebar (header);
-
+        add (main_view);
         show_all ();
     }
 
