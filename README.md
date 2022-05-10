@@ -2,7 +2,7 @@
 
 ## Intro
 
-My custom Twitch chat bot, formerly written in Python as a CLI app. 
+My custom Twitch chat bot, formerly [written in Python as a CLI app](https://github.com/zelikos/akzelbot-python). 
 
-Rewrite is in progress to make it a GUI app using Vala and GTK. This branch is currently non-functional. However, the previous version is still available at [akzelbot-python](https://github.com/zelikos/akzelbot-python).
+It is currently being rewritten in Rust.
 
